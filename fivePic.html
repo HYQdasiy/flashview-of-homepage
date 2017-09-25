@@ -1,0 +1,195 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>五帧首焦轮播</title>
+</head>
+
+<body>
+<style type="text/css">.user_top #user_context{width:1200px;height:497px;position:relative;}
+		.user_top ul li{position:absolute;top:0;left:0;z-index:1; list-style:none;}
+		.user_top ul li img{width:100%;height:100%;}
+		.user_top #corrow{position:absolute;width:100%;top:50%;opacity:0;z-index:99;}
+		.user_top #btn_lef,#btn_rig{position:absolute;height:112px;width:76px;top:50%;margin-top:-56px;}
+		.user_top #btn_lef{background:url(http://img10.360buyimg.com/cms/jfs/t8569/151/346022833/1709/e82a7560/59a62090N8c2a2ca1.png) no-repeat;position:absolute;left:0px;display:inline-block; width:41px;height:100px;}
+		.user_top #btn_rig{background:url(http://img30.360buyimg.com/cms/jfs/t8944/133/330893289/1706/a3312bb/59a62090Nbbfda377.png) no-repeat;position:absolute;left:1157px;display:inline-block;width:41px;height:100px;}</style>
+<div class="user_top" id="demo">
+	<div id="user_context">
+		<ul>                        
+			<li>
+				<a href="http://item.jd.com/5444702.html" target="_blank"><img src="http://img10.360buyimg.com/cms/jfs/t8314/303/1529050761/43048/dd005535/59bb8351N58f9713f.jpg" alt="Apple watch-1" width="989" height="480" /></a>
+			</li>                                                                   
+			<li>
+				<a href="https://item.jd.com/5089271.html" target="_blank"><img src="http://img11.360buyimg.com/cms/jfs/t7417/306/2977535066/32525/a88fba65/59b89866N763858d2.jpg" alt="iPhone8-2" width="989" height="480" /></a>
+			</li>                          
+			<li>
+				<a href="http://item.jd.com/4971133.html" target="_blank"><img src="http://img20.360buyimg.com/cms/jfs/t9253/259/2093485664/52789/40295481/59c4a37bNf3b837ec.jpg" alt="华为麦芒6-3" width="989" height="480" /></a>
+			</li>                      
+			<li>
+				<a href="http://item.jd.com/5143209.html" target="_blank"><img src="http://img30.360buyimg.com/cms/jfs/t10600/245/54947972/57469/1da1fc9f/59c4a37bN87d602d0.jpg" alt="华硕-4" width="989" height="480" /></a>
+			</li> 
+            <li>
+			<a href="http://item.jd.com/5029717.html" target="_blank"><img src="http://img12.360buyimg.com/cms/jfs/t8104/287/1966856818/59372/edda37aa/59c22405Nd429899f.jpg" alt="小米笔记本Pro-4" width="989" height="480" /></a>
+			</li> 
+		</ul>
+		<div id="corrow">
+			<a href="javascript:;" id="btn_lef"></a><a href="javascript:;" id="btn_rig"></a>
+		</div>
+	</div>
+</div>
+<script type="text/javascript">(function(window){
+		function $(id){
+			return document.getElementById(id);
+		};
+//每张图片对应的样式
+		var  tempArr = [{
+				"width":400,
+				"height":200,
+				"top":50,
+				"left":60,
+				"opacity":0.2,
+				"zIndex":2
+			},
+			{
+				"width":856,
+				"height":415,
+				"top":34,
+				"left":0,
+				"opacity":1,
+				"zIndex":3
+			},
+			{
+				"width":990,
+				"height":480,
+				"top":0,
+				"left":106,
+				"opacity":1,
+				"zIndex":4
+			},
+			{
+				"width":856,
+				"height":415,
+				"top":34,
+				"left":342,
+				"opacity":0.8,
+				"zIndex":3
+			},{
+			    "width":400,
+				"height":200,
+				"top":50,
+				"left":60,
+				"opacity":0.2,
+				"zIndex":2
+			}];
+		// 设置限流函数
+		var onOff = true ;
+		// 获取对象
+		var left = $("btn_lef"),right = $("btn_rig"),user_context = $("user_context"),ul = user_context.children[0],lis = ul.children,arrow = $("corrow");
+		// 给每个li添加样式
+		addStyle();
+	 var moveTime = setInterval (function(){
+  
+       if( onOff ){
+				onOff = false;
+				var atop = tempArr.shift();
+				tempArr.push( atop );
+				addStyle();
+			};
+       },2500);
+		user_context.onmouseover = function(){
+			animate(arrow,{"opacity":1});
+			 clearInterval(moveTime);
+		};
+		user_context.onmouseout = function(){
+			
+			animate(arrow,{"opacity":0});
+			moveTime=setInterval(function(){  
+             if( onOff ){
+				onOff = false;
+				var atop = tempArr.shift();
+				tempArr.push( atop );
+				addStyle();
+			};   
+            },2500);
+			
+			
+		};
+		// 右箭头点击事件
+		right.onclick = function(){
+			if( onOff ){
+				onOff = false;
+				var atop = tempArr.shift();
+				tempArr.push( atop );
+				addStyle();
+			};
+		};
+		// 左箭头点击事件
+		left.onclick = function(){
+			if( onOff ){
+				onOff = false;
+				var apop = tempArr.pop();
+				tempArr.unshift( apop );
+				addStyle();
+			};
+		};
+		function addStyle(){
+			for( i = 0 ; i < lis.length ; i++ ){
+				animate(lis[i],tempArr[i],function(){
+					onOff = true;
+					console.log(onOff);
+				});
+			};
+		};
+		// 设置animate函数
+		function animate(obj,json,fn){
+			clearInterval(obj.timer);
+			obj.timer = setInterval(function(){
+				var flog = true ;
+				for( k in json ){
+					if( k === "zIndex" ){
+						obj.style[k] = json[k]; 
+					}else if( k === "opacity" ){
+						var leader = getStyle(obj,k) * 100 ;
+						var target = json[k] * 100 ;
+						var step = ( target - leader ) / 10 ;
+						step = step > 0 ? Math.ceil( step ) : Math.floor( step ) ;
+						// 浮点数判断相等时是不准确的
+						// 所以不能写leader = ( leader + step )/100;
+						// 保持leader和target都是整数，便于下面判断相等
+						leader = leader + step ;
+						obj.style[k] = leader / 100;
+					}else{
+						var leader = parseInt( getStyle(obj,k) ) || 0 ;
+						var target = json[k];
+						var step = ( target - leader ) / 10 ;
+						step = step > 0 ? Math.ceil( step ) : Math.floor( step ) ;
+						leader = leader + step ; 
+						obj.style[k] = leader + "px";
+					};
+					if( leader !== target ){
+						flog = false ;
+					};
+				};
+				console.log(flog);
+				if( flog ){
+					clearInterval( obj.timer );
+					if( fn ){
+						fn();
+					};
+				};
+			}, 15);
+		};
+		// 设置getStyle函数，获取计算后的样式
+		function getStyle(obj,attr){
+			if( window.getComputedStyle ){
+				return window.getComputedStyle(obj,null)[attr];
+			}else{
+				return obj.currentStyle[attr];
+			};
+			
+		};
+		
+	})(window)
+</script>
+</body>
+</html>
